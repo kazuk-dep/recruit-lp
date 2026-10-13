@@ -4,22 +4,22 @@ type MarkerTextProps = {
   onDark?: boolean;
 };
 
-export function MarkerText({ children, color = "blue", onDark = false }: MarkerTextProps) {
-  const bgClass = onDark
-    ? color === "green"
-      ? "bg-emerald-400/40"
-      : "bg-sky-400/40"
-    : color === "green"
-    ? "bg-emerald-200/75"
-    : "bg-sky-200/75";
+const COLORS: Record<string, Record<string, string>> = {
+  blue:  { light: "rgba(186,230,252,0.75)", dark: "rgba(56,189,248,0.40)" },
+  green: { light: "rgba(167,243,208,0.75)", dark: "rgba(52,211,153,0.40)" },
+};
 
+export function MarkerText({ children, color = "blue", onDark = false }: MarkerTextProps) {
+  const fill = COLORS[color][onDark ? "dark" : "light"];
   return (
-    <span className="relative inline-block">
-      <span
-        aria-hidden
-        className={`absolute left-0 right-0 bottom-[0.1em] h-[0.4em] rounded-sm ${bgClass}`}
-      />
-      <span className="relative">{children}</span>
+    <span
+      style={{
+        backgroundImage: `linear-gradient(transparent 55%, ${fill} 55%)`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "100% 100%",
+      }}
+    >
+      {children}
     </span>
   );
 }

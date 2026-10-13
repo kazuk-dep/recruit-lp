@@ -1,12 +1,49 @@
+"use client";
+
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 
 const HERO = {
-  companyName: "〇〇設備",
   cta: "話を聞いてみる",
   ctaNote: "LINEで質問できます。匿名でもOK。",
 } as const;
 
+const NAV_ITEMS = [
+  { label: "身につく技術", href: "#skill" },
+  { label: "未経験でも大丈夫", href: "#beginner" },
+  { label: "先輩の声", href: "#voice" },
+  { label: "働き方・条件", href: "#conditions" },
+  { label: "相談の流れ", href: "#flow" },
+] as const;
+
 export function HeroSection() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!isMenuOpen) return;
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsMenuOpen(false);
+    };
+    const onOutside = (e: MouseEvent) => {
+      if (
+        !menuRef.current?.contains(e.target as Node) &&
+        !buttonRef.current?.contains(e.target as Node)
+      ) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", onKey);
+    document.addEventListener("mousedown", onOutside);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.removeEventListener("mousedown", onOutside);
+    };
+  }, [isMenuOpen]);
+
   return (
     <section
       className="relative min-h-[100svh] w-full overflow-hidden"
@@ -18,11 +55,11 @@ export function HeroSection() {
         alt="青空の下で配管作業をする作業員"
         fill
         priority
-        sizes="(max-width: 430px) 100vw, 430px"
+        sizes="(max-width: 480px) 100vw, 480px"
         className="object-cover object-[58%_92%]"
       />
 
-      {/* Top gradient — light sky wash, lets photo stay visible */}
+      {/* Top gradient */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
@@ -32,7 +69,7 @@ export function HeroSection() {
         aria-hidden
       />
 
-      {/* Bottom vignette — dark fade so white text reads over photo */}
+      {/* Bottom vignette */}
       <div
         className="pointer-events-none absolute inset-x-0 bottom-0 h-64"
         style={{
@@ -57,8 +94,8 @@ export function HeroSection() {
         />
       </svg>
 
-      {/* Header — transparent over photo */}
-      <header className="relative z-10 h-16 bg-white/10 backdrop-blur-[2px]">
+      {/* Header */}
+      <header className="relative z-20 h-16 bg-white/10 backdrop-blur-[2px]">
         <div className="flex h-full items-center justify-between px-5">
           <div className="flex items-center gap-2">
             <Image
@@ -73,33 +110,66 @@ export function HeroSection() {
             </span>
           </div>
           <button
+            ref={buttonRef}
             type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-2xl text-sky-950"
+            onClick={() => setIsMenuOpen((v) => !v)}
+            className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-white/20 text-sky-950 backdrop-blur-sm"
             aria-label="メニューを開く"
+            aria-expanded={isMenuOpen}
           >
-            <span className="sr-only">メニュー</span>
             <svg
               width="20"
               height="20"
               viewBox="0 0 24 24"
               fill="none"
-              xmlns="http://www.w3.org/2000/svg"
               aria-hidden="true"
             >
-              <path
-                d="M4 7H20M4 12H20M4 17H20"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
+              {isMenuOpen ? (
+                <path
+                  d="M6 6L18 18M18 6L6 18"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
+              ) : (
+                <path
+                  d="M4 7H20M4 12H20M4 17H20"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
+              )}
             </svg>
           </button>
         </div>
       </header>
 
+      {/* Dropdown menu — sibling to header, absolute within section */}
+      {isMenuOpen && (
+        <div
+          ref={menuRef}
+          className="absolute right-4 top-[68px] z-30 w-[240px] rounded-2xl border border-white/50 bg-white/90 p-2 shadow-lg backdrop-blur-md"
+          role="dialog"
+          aria-label="ページ内メニュー"
+        >
+          <ul className="divide-y divide-slate-100/70">
+            {NAV_ITEMS.map(({ label, href }) => (
+              <li key={href}>
+                <a
+                  href={href}
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block rounded-xl px-3 py-3 text-sm font-medium text-sky-950 hover:bg-sky-50 active:bg-emerald-50"
+                >
+                  {label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       {/* Main copy */}
       <div className="relative z-10 px-5 pt-10">
-        {/* Blue-green accent line */}
         <div
           className="mb-4 h-[3px] w-10 rounded-full"
           style={{ background: "linear-gradient(to right, #0ea5e9, #10b981)" }}
@@ -115,7 +185,7 @@ export function HeroSection() {
         </h1>
       </div>
 
-      {/* CTA — soft white button, dark navy text */}
+      {/* CTA */}
       <div className="absolute inset-x-0 bottom-0 z-10 px-5 pb-[max(3.5rem,env(safe-area-inset-bottom))]">
         <a
           href="#contact"
