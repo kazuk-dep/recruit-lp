@@ -3,6 +3,7 @@ import { HeroSection } from "@/components/HeroSection";
 import { WorkSection } from "@/components/WorkSection";
 import { FeatureSection } from "@/components/FeatureSection";
 import { VoiceSection } from "@/components/VoiceSection";
+import { PresidentInterviewSection } from "@/components/PresidentInterviewSection";
 import { ConditionsSection } from "@/components/ConditionsSection";
 import { FinalCTASection } from "@/components/FinalCTASection";
 
@@ -30,6 +31,7 @@ export default function Home() {
           <WorkSection />
           <FeatureSection />
           <VoiceSection />
+          <PresidentInterviewSection />
           <ConditionsSection />
           <FinalCTASection />
         </div>

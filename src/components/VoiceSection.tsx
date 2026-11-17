@@ -1,99 +1,65 @@
 const VOICES = {
   items: [
     {
-      initial: "T",
-      name: "Tさん",
-      detail: "24歳・入社3年目",
-      prevJob: null as string | null,
-      headline: null as string | null,
+      name: "施工スタッフ",
+      detail: "26歳",
+      tag: "元サラリーマンも活躍中" as string | null,
+      // 本文中の一文をそのまま引用
+      quote: ["今まで怒鳴られたことは", "一度もありません。"],
       paragraphs: [
-        "前職はバイトで、正直現場仕事が怖かったです。でも思ってたより怒鳴られたりしない。資格も取れて、自分に少し自信がつきました。",
+        "新卒で営業の仕事に就いたものの、毎日同じことの繰り返しで成長できている実感がなかったため退職。無職の期間中に友人から誘われたこともあり、マイ建設で水道工事の手伝いをしていました。それが面白くて！",
+        "水道工事といっても様々な場所の工事があり、知識が身につけば身につくほどできる仕事も増えて、成長できている実感がありました。入社して2年目ですが、現場でまとめ役を任され日々刺激を受けて楽しい毎日です。",
+        "建設業界って怖いイメージがあったのですが、代表の和田さんがすごく優しく、従業員のことを考えてくださる方。昔ながらの慣習ではなく、今の従業員の考え方や悩みに向き合ってくれ、働きやすい環境を作ってくださっています。",
+        "今まで怒鳴られたことは一度もありませんし、きっとこれからもないと思います。",
       ],
     },
     {
-      initial: "M",
-      name: "Mさん",
-      detail: "25歳・入社3年目",
-      prevJob: "前職：ケータイショップ店員",
-      headline: "接客から、現場の仕事へ。",
+      name: "設計スタッフ",
+      detail: "36歳・設計2年目",
+      tag: null as string | null,
+      quote: ["入社後は私がマンツーマンで", "指導させていただきます。"],
       paragraphs: [
-        "ケータイショップで2年ほど働いていました。接客も悪くなかったけど、この先もずっと続けるイメージは持てなくて。",
-        "水道の仕事は完全に未経験で、最初は道具の名前も何も分かりませんでした。でも先輩と一緒に現場に入りながら少しずつ覚えていけて、思ったよりも怖くなかったです。",
-        "今は任せてもらえる仕事も増えてきて、自信もついてきた気がします。最初からできなくて当然なので、気になったらまず話だけ聞いてみてください。",
+        "私も未経験からのスタート。この会社には営業で入ったのですが、2年前に経験ゼロから設計の仕事を担当することに。",
+        "社内初の設計スタッフで、当然指導してくれる人もおらず、独学でひたすら勉強し、一人前になりました（もちろん勉強に関する費用や資格取得費用は会社に負担してもらいました）。",
+        "ただ、皆さんにはこの苦労を味わってほしくない。ですので、入社後は私がマンツーマンで指導させていただきます。",
       ],
     },
   ],
 } as const;
 
 export function VoiceSection() {
-  // 最も長いインタビューをメイン、それ以外をサブとして扱う
-  const main = VOICES.items.find((v) => v.headline) ?? VOICES.items[0];
-  const subs = VOICES.items.filter((v) => v !== main);
-
   return (
-    <section id="voice" className="overflow-hidden bg-white pb-24 pt-20" aria-label="先輩の声">
-      <div className="px-5">
-        <p
-          className="select-none font-display text-[clamp(48px,14vw,66px)] font-bold leading-none tracking-[-0.01em] text-sky-100"
-          aria-hidden
-        >
-          INTERVIEW
-        </p>
-        <h2 className="mt-3 text-[clamp(26px,7vw,30px)] font-bold leading-[1.45] text-slate-950">
-          先輩のリアルな声
-        </h2>
-      </div>
+    <section id="voice" className="bg-white px-6 pb-24 pt-20" aria-label="先輩の声">
+      <p className="font-display text-[13px] font-semibold uppercase tracking-[0.2em] text-sky-600">
+        Interview
+      </p>
+      <h2 className="mt-5 text-[clamp(28px,7.8vw,34px)] font-bold leading-[1.45] text-slate-950">
+        先輩のリアルな声
+      </h2>
 
-      {/* メインインタビュー */}
-      <article className="relative mt-12 px-5">
-        {/* イニシャルを人物写真の代わりの大きなタイポグラフィとして置く */}
-        <span
-          className="pointer-events-none absolute -top-6 right-2 select-none font-display text-[170px] font-bold leading-none text-sky-600/[0.07]"
-          aria-hidden
-        >
-          {main.initial}
-        </span>
+      {VOICES.items.map((v, i) => (
+        <article key={v.name} className={i === 0 ? "mt-12" : "mt-20"}>
+          <div className="border-b-2 border-slate-900 pb-3">
+            <p className="text-[20px] font-bold leading-none text-slate-950">{v.name}</p>
+            <p className="mt-2 text-[14px] leading-none text-slate-600">{v.detail}</p>
+          </div>
 
-        <span className="block font-display text-[88px] font-bold leading-[0.6] text-sky-300" aria-hidden>
-          “
-        </span>
-        <h3 className="relative mt-2 text-[clamp(24px,6.6vw,28px)] font-black leading-[1.5] text-slate-900">
-          {main.headline}
-        </h3>
-        <p className="relative mt-4 text-[14px] leading-[1.7] text-slate-700">
-          <span className="font-semibold text-slate-800">{main.name}</span>
-          <span className="mx-2 text-slate-300">/</span>
-          {main.detail}
-          {main.prevJob && <span className="block text-sky-700">{main.prevJob}</span>}
-        </p>
-
-        <div className="mt-8 space-y-5 border-l border-sky-200 pl-5 text-[16px] leading-[1.95] text-slate-800">
-          {main.paragraphs.map((para) => (
-            <p key={para}>{para}</p>
-          ))}
-        </div>
-      </article>
-
-      {/* サブインタビュー：右にずらし、補助的に見せる */}
-      <div className="mt-16 px-5">
-        {subs.map((v) => (
-          <article
-            key={v.name}
-            className="ml-10 border-t border-slate-200 py-8"
+          {v.tag && <p className="mt-6 text-[15px] font-bold text-sky-700">{v.tag}</p>}
+          <p
+            className={`${v.tag ? "mt-2" : "mt-6"} text-[clamp(21px,5.8vw,24px)] font-bold leading-[1.6] text-slate-950`}
           >
-            <p className="text-[14px] text-slate-700">
-              <span className="text-[15px] font-bold text-slate-900">{v.name}</span>
-              <span className="mx-2 text-slate-300">/</span>
-              {v.detail}
-            </p>
+            「{v.quote[0]}
+            <br />
+            {v.quote[1]}」
+          </p>
+
+          <div className="mt-6 space-y-5 text-[16px] leading-[1.95] text-slate-800">
             {v.paragraphs.map((para) => (
-              <p key={para} className="mt-3 text-[15px] leading-[1.9] text-slate-800">
-                「{para}」
-              </p>
+              <p key={para}>{para}</p>
             ))}
-          </article>
-        ))}
-      </div>
+          </div>
+        </article>
+      ))}
     </section>
   );
 }

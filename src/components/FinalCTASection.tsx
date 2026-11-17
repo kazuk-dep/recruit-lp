@@ -57,7 +57,7 @@ export function FinalCTASection() {
       </div>
 
       <div id="contact" className="mt-12">
-        <CTAButton href="#contact">{FINAL_CTA.cta}</CTAButton>
+        <CTAButton href="https://lin.ee/9IGnsZi" target="_blank" rel="noopener noreferrer">{FINAL_CTA.cta}</CTAButton>
         <p className="mt-4 text-center text-[14px] font-medium text-white/90">{FINAL_CTA.note}</p>
       </div>
     </section>

@@ -188,7 +188,9 @@ export function HeroSection() {
       {/* CTA */}
       <div className="absolute inset-x-0 bottom-0 z-10 px-5 pb-[max(3.5rem,env(safe-area-inset-bottom))]">
         <a
-          href="#contact"
+          href="https://lin.ee/9IGnsZi"
+          target="_blank"
+          rel="noopener noreferrer"
           className="flex min-h-14 w-full items-center justify-center rounded-2xl bg-white/75 px-5 text-base font-semibold text-sky-950 backdrop-blur-sm transition-[transform,filter] hover:brightness-95 active:scale-[0.99] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-950"
         >
           {HERO.cta}
